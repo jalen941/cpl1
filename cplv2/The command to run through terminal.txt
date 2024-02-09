@@ -1,0 +1,1 @@
+The command to run through terminal:PS C:\Users\Jalen\eclipse-workspace\cplv2\src\cplv2> java -cp "C:\Users\Jalen\eclipse-workspace\cplv2\src;C:\Users\Jalen\Downloads\jar_files\json-20231013.jar" cplv2.main "C:\Users\Jalen\Downloads\welcome.scl"
