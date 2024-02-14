@@ -20,7 +20,7 @@ public class main {
 	    
 	            
 	            
-	            System.out.println(scan.readFile(inputFileName, outputFileName));
+	            scan.readFile(inputFileName, outputFileName) ;
 	        
 	       
 	    }
