@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.FileWriter;
@@ -29,7 +31,9 @@ public class scan {
 	    
 	    
 	    
-	    public void readFile(String inputFileName, String outputFileName) {
+	    public ArrayList<JSONArray> readFile(String inputFileName, String outputFileName) {
+	    	ArrayList list = new ArrayList<>();
+	    	int index=0;
 	        try (FileWriter fileWriter = new FileWriter(outputFileName)) {
 	            System.out.println("Output file: " + outputFileName); // Debugging output
 	            JSONArray jsonArray = new JSONArray();
@@ -56,6 +60,8 @@ public class scan {
 	                            break;
 	                        }
 	                        jsonArray.put(createTokenObject(token));
+	                        list.add(jsonArray.get(index));
+	                        index++;
 	                    }
 	                }
 	            } catch (IOException e) {
@@ -64,9 +70,11 @@ public class scan {
 
 	            fileWriter.write(jsonArray.toString(4)); 
 	            System.out.println("JSON file created successfully.");
+	            return list;
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
+			return list;
 	    }
 
 
