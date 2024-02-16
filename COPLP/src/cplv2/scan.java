@@ -83,12 +83,13 @@ public class scan {
 	    public static void removeEmptyValueObjects(ArrayList<JSONObject> list) {
 	        ArrayList<JSONObject> toRemove = new ArrayList<>();
 	        for (JSONObject obj : list) {
-	            if (obj.optString("value").isEmpty()) {
+	            if (obj == null || obj.optString("value").isEmpty()) {
 	                toRemove.add(obj);
 	            }
 	        }
 	        list.removeAll(toRemove);
 	    }
+
 	    	    private String removeLineComments(String line) {
 	    	        return line.replaceAll("//.*", "");
 	    	    }
@@ -98,27 +99,42 @@ public class scan {
 	    	    }
 	
 	
-	 private JSONObject createTokenObject(String token) {
-	        JSONObject jsonObject = new JSONObject();
-	        if (keywords.contains(token)) {
-	            jsonObject.put("type", "keyword");
-	            jsonObject.put("value", token);
-	            System.out.println(jsonObject);
-	        } else if (specialCharacters.contains(token)) {
-	            jsonObject.put("type", "specialCharacter");
-	            jsonObject.put("value", token);
-	            System.out.println(jsonObject);
-	        } else if (token.startsWith("\"") && token.endsWith("\"")) { // Check if token is a string literal
-	            jsonObject.put("type", "stringLiteral");
-	            jsonObject.put("value", token.substring(1, token.length() - 1)); // Remove quotes from the string literal
-	        
-	        }
-	        else {
-	            jsonObject.put("type", "identifier");
-	            jsonObject.put("value", token);
-	            System.out.println(jsonObject);
-	        }
-	        return jsonObject;
-	    }
+	    	    private JSONObject createTokenObject(String token) {
+	    	        if (token.isEmpty()) {
+	    	            return null; // Skip empty tokens
+	    	        }
+	    	        
+	    	        JSONObject jsonObject = new JSONObject();
+	    	        
+	    	        if (keywords.contains(token)) {
+	    	            jsonObject.put("type", "keyword");
+	    	            jsonObject.put("value", token);
+	    	        } else if (specialCharacters.contains(token)) {
+	    	            jsonObject.put("type", "specialCharacter");
+	    	            jsonObject.put("value", token);
+	    	        } else if (token.matches("\\d+;")) { // Check if token is a number followed by a semicolon
+	    	            // Separate the number and the semicolon
+	    	            String number = token.substring(0, token.length() - 1); // Extract the number part
+	    	            jsonObject.put("type", "number");
+	    	            jsonObject.put("value", number);
+
+	    	            // Create a separate token for the semicolon
+	    	            JSONObject semicolonObject = new JSONObject();
+	    	            semicolonObject.put("type", "specialCharacter");
+	    	            semicolonObject.put("value", ";");
+	    	            // You might want to add this semicolonObject to the list of tokens too.
+	    	        } else if (token.startsWith("\"") && token.endsWith("\"")) {
+	    	            jsonObject.put("type", "stringLiteral");
+	    	            jsonObject.put("value", token.substring(1, token.length() - 1));
+	    	        } else {
+	    	            jsonObject.put("type", "identifier");
+	    	            jsonObject.put("value", token);
+	    	        }
+	    	        
+	    	        return jsonObject;
+	    	    }
+
+
+
 	
 }

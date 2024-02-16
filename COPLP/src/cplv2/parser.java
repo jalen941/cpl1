@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
 public class parser {
     private ArrayList<JSONObject> tokens;
     private int currentTokenIndex;
@@ -17,14 +16,18 @@ public class parser {
         this.currentTokenIndex = 0;
     }
 
-    public void parse() {
+    public void begin() {
+        start();
+    }
+
+    private void start() {
         parseProgram();
     }
 
     private void parseProgram() {
         parseFunctionDefinition();
-      // parseEndfunStatement();
     }
+
     private void parseFunctionDefinition() {
         if (!match("keyword", "function")) {
             reportError("Expected 'function' keyword.");
@@ -39,16 +42,27 @@ public class parser {
             return;
         }
         parseVariablesBlock();
-        parseBeginStatement(); // Moved the parsing of the "begin" statement here
+       parseBeginStatement();
     }
- 
-
     private void parseVariablesBlock() {
         if (!match("keyword", "variables")) {
             reportError("Expected 'variables' keyword.");
             return;
         }
-        while (match("keyword", "define")) {
+        while (true) {
+            if (currentTokenIndex >= tokens.size()) {
+                reportError("Expected 'begin' keyword before reaching the end of the token list.");
+                return;
+            }
+            
+            if (match("keyword", "begin")) {
+                return; // 'begin' keyword found, exit the loop
+            }
+
+            if (!match("keyword", "define")) {
+                reportError("Expected 'define' keyword.");
+                return;
+            }
             if (!match("identifier")) {
                 reportError("Expected identifier after 'define' keyword.");
                 return;
@@ -61,16 +75,34 @@ public class parser {
                 reportError("Expected 'type' keyword after 'of'.");
                 return;
             }
+            if (!match("identifier")) {
+                reportError("Expected type identifier after 'type' keyword.");
+                return;
+            }
+
+            // Print debug information
+            System.out.println("Parsed variable definition successfully.");
         }
     }
 
+
+
     private void parseBeginStatement() {
         if (!match("keyword", "begin")) {
-           // reportError("Expected 'begin' keyword.");
+            //reportError("Expected 'begin' keyword.");
+           // System.out.println("at " + currentTokenIndex);
+            //System.out.println("at " + tokens.get(currentTokenIndex));
+
+            if (currentTokenIndex < tokens.size()) {
+               // System.out.println(tokens.get(currentTokenIndex));
+            } else {
+                System.out.println("Reached end of token list.");
+            }
             return;
         }
         parseStatement();
     }
+
 
     private void parseStatement() {
         if (!match("keyword", "display")) {
@@ -85,7 +117,6 @@ public class parser {
             reportError("Expected ';' after string literal.");
             return;
         }
-        // Add more parsing logic for other statement types if needed
     }
 
     private boolean match(String expectedType, String expectedValue) {
@@ -93,10 +124,16 @@ public class parser {
             JSONObject token = tokens.get(currentTokenIndex);
             String type = token.optString("type");
             String value = token.optString("value");
+       
             if (type.equals(expectedType) && value.equals(expectedValue)) {
+            //System.out.println("returned true");
+            	System.out.println("type: "+ type + " value: "+ value+ " expected type " + expectedType+ " expected value " + expectedValue);
                 currentTokenIndex++;
                 return true;
             }
+            
+           // System.out.println("returned false");
+           // System.out.println("type: "+ type + " value: "+ value+ " expected type " + expectedType+ " expected value " + expectedValue);
         }
         return false;
     }
@@ -105,6 +142,7 @@ public class parser {
         if (currentTokenIndex < tokens.size()) {
             JSONObject token = tokens.get(currentTokenIndex);
             String type = token.optString("type");
+            
             if (type.equals(expectedType)) {
                 currentTokenIndex++;
                 return true;

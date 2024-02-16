@@ -1,33 +1,80 @@
-program : metadata import_section implementation_section function_declaration;
+program : statement_list
 
-import_section : "import" STRING_LITERAL;
+statement_list : statement
+               | statement statement_list
 
-implementation_section : "implementations";
+statement : import_statement
+          | variable_definition
+          | function_definition
+          | display_statement
 
-function_declaration : "function" IDENTIFIER "is" variables_section "begin" statement_list "endfun" IDENTIFIER;
+import_statement : IMPORT STRING_LITERAL
+                 | USE STRING_LITERAL
 
-variables_section : "variables" variable_declaration*;
+variable_definition : VARIABLES variable_list END_VARIABLES
 
-variable_declaration : "define" IDENTIFIER "of" "type" data_type;
+variable_list : variable_definition
+              | variable_definition variable_list
 
-statement_list : statement*;
+variable_definition : DEFINE IDENTIFIER OF TYPE
+                   | DEFINE IDENTIFIER OF identifier_type
 
-statement : "display" STRING_LITERAL
-          | "set" IDENTIFIER "=" expression
-          | "input" STRING_LITERAL "," IDENTIFIER
-          | "if" expression "then" statement_list "endif"
-          | "return" NUMBER;
+identifier_type : INT
+                | STRING
+                | DOUBLE
+                | BOOL
+                | CUSTOM_TYPE
+
+function_definition : FUNCTION IDENTIFIER IS function_body END_FUNCTION
+
+function_body : variables_block BEGIN statements END
+
+variables_block : VARIABLES variable_list END_VARIABLES
+
+statements : statement
+           | statement statements
+
+statement : assignment_statement
+          | display_statement
+          | if_statement
+          | function_call_statement
+
+assignment_statement : SET IDENTIFIER EQUALS expression
+
+display_statement : DISPLAY STRING_LITERAL
+                  | DISPLAY IDENTIFIER
+
+if_statement : IF condition THEN statements ENDIF
+
+condition : expression COMPARISON_OPERATOR expression
+
+function_call_statement : IDENTIFIER argument_list
+
+argument_list : expression
+              | expression argument_list
 
 expression : IDENTIFIER
            | NUMBER
-           | STRING_LITERAL
-           | expression comparison_operator expression;
+           | expression OPERATOR expression
 
-comparison_operator : ">=" | ">" | "<=" | "<" | "==" | "!=";
+NUMBER : [0-9]+
+IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]*
+STRING_LITERAL : "\"" [^\"]* "\""
 
-data_type : "double" | "pointer";
-
-IDENTIFIER : // defined as letters, numbers, and underscores
-NUMBER : // defined as numeric values
-STRING_LITERAL : // defined as strings enclosed in double quotes
+IMPORT : "import"
+USE : "use"
+VARIABLES : "variables"
+END_VARIABLES : "endvariables"
+DEFINE : "define"
+FUNCTION : "function"
+IS : "is"
+BEGIN : "begin"
+END : "end"
+SET : "set"
+DISPLAY : "display"
+IF : "if"
+THEN : "then"
+ENDIF : "endif"
+OPERATOR : "+" | "-" | "*" | "/"
+COMPARISON_OPERATOR : "==" | "!=" | "<" | ">" | "<=" | ">="
 
