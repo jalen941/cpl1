@@ -3,19 +3,14 @@ package cplv2;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
-import org.json.JSONObject;
+
 
 public class parser {
     private ArrayList<JSONObject> tokens;
     private int currentTokenIndex;
-
-    // Constants for token types
-    private static final int IDENTIFIER_TYPE = 0;
-    private static final int NUMBER_TYPE = 1;
-    private static final int STRING_LITERAL_TYPE = 2;
 
     public parser(ArrayList<JSONObject> tokens) {
         this.tokens = tokens;
@@ -24,142 +19,101 @@ public class parser {
 
     public void parse() {
         parseProgram();
-        if (currentTokenIndex < tokens.size()) {
-            System.out.println("Error: Unexpected tokens remaining.");
-        }
     }
 
     private void parseProgram() {
-        parseImportSection();
-      //  parseImplementationSection();
-       // parseFunctionDeclaration();
+        parseFunctionDefinition();
+      // parseEndfunStatement();
     }
-
-    private void parseImportSection() {
-        getNextToken("import");
-        getNextToken(STRING_LITERAL_TYPE);
+    private void parseFunctionDefinition() {
+        if (!match("keyword", "function")) {
+            reportError("Expected 'function' keyword.");
+            return;
+        }
+        if (!match("identifier")) {
+            reportError("Expected function identifier after 'function' keyword.");
+            return;
+        }
+        if (!match("keyword", "is")) {
+            reportError("Expected 'is' keyword after function identifier.");
+            return;
+        }
+        parseVariablesBlock();
+        parseBeginStatement(); // Moved the parsing of the "begin" statement here
     }
+ 
 
-    private void parseImplementationSection() {
-        getNextToken("implementations");
-    }
-
-    private void parseFunctionDeclaration() {
-        getNextToken("function");
-        getNextToken(IDENTIFIER_TYPE);
-        getNextToken("is");
-        parseVariablesSection();
-        getNextToken("begin");
-        parseStatementList();
-        getNextToken("endfun");
-        getNextToken(IDENTIFIER_TYPE);
-    }
-
-    private void parseVariablesSection() {
-        getNextToken("variables");
-        while (isToken("define")) {
-            parseVariableDeclaration();
+    private void parseVariablesBlock() {
+        if (!match("keyword", "variables")) {
+            reportError("Expected 'variables' keyword.");
+            return;
+        }
+        while (match("keyword", "define")) {
+            if (!match("identifier")) {
+                reportError("Expected identifier after 'define' keyword.");
+                return;
+            }
+            if (!match("keyword", "of")) {
+                reportError("Expected 'of' keyword after variable identifier.");
+                return;
+            }
+            if (!match("keyword", "type")) {
+                reportError("Expected 'type' keyword after 'of'.");
+                return;
+            }
         }
     }
 
-    private void parseVariableDeclaration() {
-        getNextToken("define");
-        getNextToken(IDENTIFIER_TYPE);
-        getNextToken("of");
-        getNextToken("type");
-        parseDataType();
-    }
-
-    private void parseDataType() {
-        if (isToken("double") || isToken("pointer")) {
-            getNextToken();
-        } else {
-            System.out.println("Error: Expected data type");
+    private void parseBeginStatement() {
+        if (!match("keyword", "begin")) {
+           // reportError("Expected 'begin' keyword.");
+            return;
         }
-    }
-
-    private void parseStatementList() {
-        while (!isToken("endfun") && !isToken("endif")) {
-            parseStatement();
-        }
+        parseStatement();
     }
 
     private void parseStatement() {
-        if (isToken("display")) {
-            getNextToken("display");
-            getNextToken(STRING_LITERAL_TYPE);
-        } else if (isToken("set")) {
-            getNextToken("set");
-            getNextToken(IDENTIFIER_TYPE);
-            getNextToken("=");
-            parseExpression();
-        } else if (isToken("input")) {
-            getNextToken("input");
-            getNextToken(STRING_LITERAL_TYPE);
-            getNextToken(",");
-            getNextToken(IDENTIFIER_TYPE);
-        } else if (isToken("if")) {
-            getNextToken("if");
-            parseExpression();
-            getNextToken("then");
-            parseStatementList();
-            getNextToken("endif");
-        } else if (isToken("return")) {
-            getNextToken("return");
-            getNextToken(NUMBER_TYPE);
+        if (!match("keyword", "display")) {
+            reportError("Expected 'display' keyword.");
+            return;
         }
+        if (!match("stringLiteral")) {
+            reportError("Expected string literal after 'display' keyword.");
+            return;
+        }
+        if (!match("specialCharacter", ";")) {
+            reportError("Expected ';' after string literal.");
+            return;
+        }
+        // Add more parsing logic for other statement types if needed
     }
 
-    private void parseExpression() {
-        if (isToken(IDENTIFIER_TYPE) || isToken(NUMBER_TYPE) || isToken(STRING_LITERAL_TYPE)) {
-            getNextToken();
-        } else {
-            parseExpression();
-            parseComparisonOperator();
-            parseExpression();
-        }
-    }
-
-    private void parseComparisonOperator() {
-        if (isToken(">=") || isToken(">") || isToken("<=") || isToken("<") || isToken("==") || isToken("!=")) {
-            getNextToken();
-        } else {
-            System.out.println("Error: Expected comparison operator");
-        }
-    }
-
-    private void getNextToken(String expectedToken) {
-        JSONObject token = getNextToken();
-        if (token == null || !token.optString("value").equals(expectedToken)) {
-            System.out.println("Error: Unexpected token: " + token.optString("value") + ". Expected: " + expectedToken);
-        }
-    }
-
-    private void getNextToken(int expectedType) {
-        JSONObject token = getNextToken();
-        if (token == null || token.optInt("type") != expectedType) {
-            System.out.println("Error: Unexpected token type: " + token.optInt("type") + " " + token.optString("value")+ ". Expected: " + expectedType);
-        }
-    }
-
-    private JSONObject getNextToken() {
+    private boolean match(String expectedType, String expectedValue) {
         if (currentTokenIndex < tokens.size()) {
-        	System.out.println("next token :"+ tokens.get(0));
-        	
-        
-            return tokens.get(currentTokenIndex++);
-        } else {
-            return null;
+            JSONObject token = tokens.get(currentTokenIndex);
+            String type = token.optString("type");
+            String value = token.optString("value");
+            if (type.equals(expectedType) && value.equals(expectedValue)) {
+                currentTokenIndex++;
+                return true;
+            }
         }
+        return false;
     }
 
-    private boolean isToken(String expectedToken) {
-        JSONObject token = getNextToken();
-        return token != null && token.optString("value").equals(expectedToken);
+    private boolean match(String expectedType) {
+        if (currentTokenIndex < tokens.size()) {
+            JSONObject token = tokens.get(currentTokenIndex);
+            String type = token.optString("type");
+            if (type.equals(expectedType)) {
+                currentTokenIndex++;
+                return true;
+            }
+        }
+        return false;
     }
 
-    private boolean isToken(int expectedType) {
-        JSONObject token = getNextToken();
-        return token != null && token.optInt("type") == expectedType;
+    private void reportError(String message) {
+        System.out.println("Syntax Error: " + message);
     }
 }

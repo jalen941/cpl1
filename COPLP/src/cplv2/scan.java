@@ -20,7 +20,7 @@ public class scan {
 	        "if", "else", "var", "input", "endif",
 	        "return", "function", "endfun", "not", "then",
 	        "display", "define", "import", "variables", "begin",
-	        "set"
+	        "set","is","of","type"
 	    ));
 
 	    private ArrayList<String> specialCharacters = new ArrayList<>(Arrays.asList(
