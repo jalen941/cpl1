@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,12 +32,10 @@ public class scan {
 	    
 	    
 	    
-	    public ArrayList<JSONArray> readFile(String inputFileName, String outputFileName) {
-	    	ArrayList list = new ArrayList<>();
-	    	int index=0;
+	    public ArrayList<JSONObject> readFile(String inputFileName, String outputFileName) {
+	        ArrayList<JSONObject> list = new ArrayList<>(); // List to hold JSONObjects
 	        try (FileWriter fileWriter = new FileWriter(outputFileName)) {
 	            System.out.println("Output file: " + outputFileName); // Debugging output
-	            JSONArray jsonArray = new JSONArray();
 	            try (BufferedReader reader = new BufferedReader(new FileReader(inputFileName))) {
 	                String line;
 	                boolean insideBlockComment = false;
@@ -59,26 +58,37 @@ public class scan {
 	                            insideBlockComment = true;
 	                            break;
 	                        }
-	                        jsonArray.put(createTokenObject(token));
-	                        list.add(jsonArray.get(index));
-	                        index++;
+	                        JSONObject tokenObject = createTokenObject(token); // Create a JSONObject for the token
+	                        list.add(tokenObject); // Add the JSONObject to the list
 	                    }
 	                }
 	            } catch (IOException e) {
 	                e.printStackTrace();
 	            }
 
-	            fileWriter.write(jsonArray.toString(4)); 
-	            System.out.println("JSON file created successfully.");
-	            return list;
+	            // Write the list of JSON objects to file (if needed)
+	            // This part depends on your requirement
+	            // You can write the JSON objects to file in a format you desire
+
+	            System.out.println("JSON objects created successfully.");
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
-			return list;
+	        
+	      
+	        removeEmptyValueObjects(list);
+	        System.out.println("the list " + list);
+	        return list;
 	    }
-
-
-
+	    public static void removeEmptyValueObjects(ArrayList<JSONObject> list) {
+	        ArrayList<JSONObject> toRemove = new ArrayList<>();
+	        for (JSONObject obj : list) {
+	            if (obj.optString("value").isEmpty()) {
+	                toRemove.add(obj);
+	            }
+	        }
+	        list.removeAll(toRemove);
+	    }
 	    	    private String removeLineComments(String line) {
 	    	        return line.replaceAll("//.*", "");
 	    	    }
@@ -98,7 +108,12 @@ public class scan {
 	            jsonObject.put("type", "specialCharacter");
 	            jsonObject.put("value", token);
 	            System.out.println(jsonObject);
-	        } else {
+	        } else if (token.startsWith("\"") && token.endsWith("\"")) { // Check if token is a string literal
+	            jsonObject.put("type", "stringLiteral");
+	            jsonObject.put("value", token.substring(1, token.length() - 1)); // Remove quotes from the string literal
+	        
+	        }
+	        else {
 	            jsonObject.put("type", "identifier");
 	            jsonObject.put("value", token);
 	            System.out.println(jsonObject);

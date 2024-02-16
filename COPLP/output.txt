@@ -1,0 +1,443 @@
+[
+    [],
+    [{
+        "type": "identifier",
+        "value": ""
+    }],
+    [
+        {
+            "type": "keyword",
+            "value": "import"
+        },
+        {
+            "type": "identifier",
+            "value": "\"scl.h\""
+        }
+    ],
+    [{
+        "type": "identifier",
+        "value": "implementations"
+    }],
+    [
+        {
+            "type": "keyword",
+            "value": "function"
+        },
+        {
+            "type": "identifier",
+            "value": "main"
+        },
+        {
+            "type": "identifier",
+            "value": "is"
+        }
+    ],
+    [{
+        "type": "keyword",
+        "value": "variables"
+    }],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "define"
+        },
+        {
+            "type": "identifier",
+            "value": "x"
+        },
+        {
+            "type": "identifier",
+            "value": "of"
+        },
+        {
+            "type": "identifier",
+            "value": "type"
+        },
+        {
+            "type": "identifier",
+            "value": "double"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "define"
+        },
+        {
+            "type": "identifier",
+            "value": "t"
+        },
+        {
+            "type": "identifier",
+            "value": "of"
+        },
+        {
+            "type": "identifier",
+            "value": "type"
+        },
+        {
+            "type": "identifier",
+            "value": "double"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "define"
+        },
+        {
+            "type": "identifier",
+            "value": "pt"
+        },
+        {
+            "type": "identifier",
+            "value": "pointer"
+        },
+        {
+            "type": "identifier",
+            "value": "of"
+        },
+        {
+            "type": "identifier",
+            "value": "type"
+        },
+        {
+            "type": "identifier",
+            "value": "double"
+        }
+    ],
+    [{
+        "type": "keyword",
+        "value": "begin"
+    }],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "display"
+        },
+        {
+            "type": "identifier",
+            "value": "\"Welcome"
+        },
+        {
+            "type": "identifier",
+            "value": "to"
+        },
+        {
+            "type": "identifier",
+            "value": "the"
+        },
+        {
+            "type": "identifier",
+            "value": "world"
+        },
+        {
+            "type": "identifier",
+            "value": "of"
+        },
+        {
+            "type": "identifier",
+            "value": "SCL\""
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "set"
+        },
+        {
+            "type": "identifier",
+            "value": "x"
+        },
+        {
+            "type": "specialCharacter",
+            "value": "="
+        },
+        {
+            "type": "identifier",
+            "value": "45.95"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "display"
+        },
+        {
+            "type": "identifier",
+            "value": "\"Value"
+        },
+        {
+            "type": "identifier",
+            "value": "of"
+        },
+        {
+            "type": "identifier",
+            "value": "x:"
+        },
+        {
+            "type": "identifier",
+            "value": "\","
+        },
+        {
+            "type": "identifier",
+            "value": "x"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "input"
+        },
+        {
+            "type": "identifier",
+            "value": "\"type"
+        },
+        {
+            "type": "identifier",
+            "value": "value"
+        },
+        {
+            "type": "identifier",
+            "value": "of"
+        },
+        {
+            "type": "identifier",
+            "value": "t:"
+        },
+        {
+            "type": "identifier",
+            "value": "\","
+        },
+        {
+            "type": "identifier",
+            "value": "t"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "display"
+        },
+        {
+            "type": "identifier",
+            "value": "\"The"
+        },
+        {
+            "type": "identifier",
+            "value": "value"
+        },
+        {
+            "type": "identifier",
+            "value": "of"
+        },
+        {
+            "type": "identifier",
+            "value": "t"
+        },
+        {
+            "type": "identifier",
+            "value": "is:"
+        },
+        {
+            "type": "identifier",
+            "value": "\","
+        },
+        {
+            "type": "identifier",
+            "value": "t"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "if"
+        },
+        {
+            "type": "identifier",
+            "value": "x"
+        },
+        {
+            "type": "identifier",
+            "value": ">="
+        },
+        {
+            "type": "identifier",
+            "value": "t"
+        },
+        {
+            "type": "keyword",
+            "value": "then"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "display"
+        },
+        {
+            "type": "identifier",
+            "value": "t"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "else"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "display"
+        },
+        {
+            "type": "identifier",
+            "value": "x"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "endif"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "if"
+        },
+        {
+            "type": "keyword",
+            "value": "not"
+        },
+        {
+            "type": "identifier",
+            "value": "x"
+        },
+        {
+            "type": "identifier",
+            "value": "greater"
+        },
+        {
+            "type": "identifier",
+            "value": "or"
+        },
+        {
+            "type": "identifier",
+            "value": "equal"
+        },
+        {
+            "type": "identifier",
+            "value": "t"
+        },
+        {
+            "type": "keyword",
+            "value": "then"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "display"
+        },
+        {
+            "type": "identifier",
+            "value": "x"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "endif"
+        }
+    ],
+    [
+        {
+            "type": "identifier",
+            "value": ""
+        },
+        {
+            "type": "keyword",
+            "value": "return"
+        },
+        {
+            "type": "identifier",
+            "value": "0"
+        }
+    ],
+    [
+        {
+            "type": "keyword",
+            "value": "endfun"
+        },
+        {
+            "type": "identifier",
+            "value": "main"
+        }
+    ]
+]

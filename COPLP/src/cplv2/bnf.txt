@@ -1,38 +1,33 @@
-program : metadata import_section implementation_section function_declaration
+program : metadata import_section implementation_section function_declaration;
 
-metadata : "/*" "description" "Program" ":" IDENTIFIER "," "Author" ":" IDENTIFIER "," "Date" ":" IDENTIFIER "." "*/"
+import_section : "import" STRING_LITERAL;
 
-import_section : "import" STRING_LITERAL
+implementation_section : "implementations";
 
-implementation_section : "implementations"
+function_declaration : "function" IDENTIFIER "is" variables_section "begin" statement_list "endfun" IDENTIFIER;
 
-function_declaration : "function" IDENTIFIER "is" variables_section "begin" statement_list "endfun" IDENTIFIER
+variables_section : "variables" variable_declaration*;
 
-variables_section : "variables" variable_declaration*
+variable_declaration : "define" IDENTIFIER "of" "type" data_type;
 
-variable_declaration : "define" IDENTIFIER "of" "type" data_type
-
-statement_list : statement*
+statement_list : statement*;
 
 statement : "display" STRING_LITERAL
           | "set" IDENTIFIER "=" expression
           | "input" STRING_LITERAL "," IDENTIFIER
           | "if" expression "then" statement_list "endif"
-          | "return" NUMBER
-          ;
+          | "return" NUMBER;
 
 expression : IDENTIFIER
            | NUMBER
            | STRING_LITERAL
-           | expression comparison_operator expression
-           ;
+           | expression comparison_operator expression;
 
-comparison_operator : ">=" | ">" | "<=" | "<" | "==" | "!="
+comparison_operator : ">=" | ">" | "<=" | "<" | "==" | "!=";
 
-data_type : "double"
-          | "pointer"
-          ;
+data_type : "double" | "pointer";
 
 IDENTIFIER : // defined as letters, numbers, and underscores
 NUMBER : // defined as numeric values
 STRING_LITERAL : // defined as strings enclosed in double quotes
+
