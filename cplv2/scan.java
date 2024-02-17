@@ -1,5 +1,3 @@
-package cplv2;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -20,7 +18,8 @@ public class scan {
 	        "if", "else", "endif",
 	         "FUNCTION", "not", "then",
 	       "import", "variables", "begin","define",
-	        "SET","is","of","type" ,"DISPLAY", "END", "MAIN", "BEGIN","int" 
+	        "SET","is","of","type" ,"DISPLAY", "END", "MAIN", "BEGIN","int","bool",
+	        "string","true", "false"
 	    ));
 
 	    private ArrayList<String> specialCharacters = new ArrayList<>(Arrays.asList(
