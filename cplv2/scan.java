@@ -1,4 +1,7 @@
+package cplv2;
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,10 +38,10 @@ public class scan {
 	    
 	    
 	    public ArrayList<JSONObject> readFile(String inputFileName, String outputFileName) {
-	        ArrayList<JSONObject> list = new ArrayList<>(); 
-	        
-	        try (FileWriter fileWriter = new FileWriter(outputFileName)) {
-	            //System.out.println("Output file: " + outputFileName); 
+	        ArrayList<JSONObject> list = new ArrayList<>();
+
+	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName))) {
+	            System.out.println("Output file: " + outputFileName);
 	            try (BufferedReader reader = new BufferedReader(new FileReader(inputFileName))) {
 	                String line;
 	                boolean insideBlockComment = false;
@@ -61,26 +64,28 @@ public class scan {
 	                            insideBlockComment = true;
 	                            break;
 	                        }
-	                        JSONObject tokenObject = createTokenObject(token); 
-	                        list.add(tokenObject); 
+	                        JSONObject tokenObject = createTokenObject(token);
+	                        if (tokenObject != null) {
+	                            list.add(tokenObject);
+	                            writer.write(tokenObject.toString()); // Write the JSON object to the file
+	                            writer.newLine();
+	                        }
 	                    }
 	                }
 	            } catch (IOException e) {
 	                e.printStackTrace();
 	            }
 
-	        
 	            System.out.println("JSON objects created successfully.");
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
-	        
-	        //double check for empty data in the list
+
+	        // double check for empty data in the list
 	        removeEmptyValueObjects(list);
-	        //System.out.println("the list " + list);
+
 	        return list;
 	    }
-	    
 	    
 	    
 	    
