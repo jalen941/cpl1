@@ -1,0 +1,37 @@
+<scl-program> ::= <function-definition> "END MAIN" <function-definition> "END MAIN" 
+
+<function-definition> ::= "FUNCTION" <identifier> "is" <block>
+
+<block> ::= "variables" <variable-declarations> "BEGIN" <statements> "END" <identifier>
+
+<variable-declarations> ::= <variable-declaration> | <variable-declarations> <variable-declaration>
+
+<variable-declaration> ::= "define" <identifier> "of type" <type> ";"
+
+<type> ::= "int" | "bool" | "string"  
+
+<statements> ::= <statement> | <statements> <statement>
+
+<statement> ::= <assignment> | <display> | <conditional-statement>
+
+<assignment> ::= "SET" <identifier> "=" <expression> ";"
+
+<display> ::= "DISPLAY" <expression> ";"
+
+<conditional-statement> ::= "if" <expression> <block> "else" <block> "endif"
+
+<expression> ::= <term> | <expression> "+" <term> | <expression> "-" <term>
+
+<term> ::= <factor> | <term> "*" <factor> | <term> "/" <factor>
+
+<factor> ::= <identifier> | <number> | <boolean> | "(" <expression> ")"
+
+<identifier> ::= <letter> <identifier> | <letter>
+
+<number> ::= <digit> <number> | <digit>
+
+<boolean> ::= "true" | "false"
+
+<letter> ::= "a" | "b" | ... | "z" | "A" | "B" | ... | "Z" | "_"
+
+<digit> ::= "0" | "1" | ... | "9"

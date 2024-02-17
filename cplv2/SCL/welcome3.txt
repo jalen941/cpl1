@@ -1,0 +1,17 @@
+FUNCTION MAIN is
+variables
+    define y of type int
+    define z of type int
+    define total of type int
+
+BEGIN
+    SET y = 10;
+    SET z = 5;
+SET p = 20;
+SET total = y + z;
+    if total > p
+	DISPLAY true
+     else
+	DISPLAY false
+	endif
+END MAIN

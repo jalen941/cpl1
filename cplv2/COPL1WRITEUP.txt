@@ -1,0 +1,32 @@
+Kennesaw State University
+Computer Science
+CS 4308 01
+Submission 3
+Jalen Robinson jrobi329@students.kennesaw.edu
+1/30/2024
+ 
+Initial problem statement: Create a scanner for a subset of the SCL language
+Summary and purpose of the report/assignment: The purpose of the scanner is to scan through the SCL file and tokenize each appropriate character.
+Detailed description of the solution used in the assignment or project: I used Java’s org.json library to create an array list of JSONObjects, each object contains the token type and the token that was scanned. It checks each character scanned and tokenizes it via my create token method.
+Table or list of input data and results: Here is an example, I tested a simple SCL file that i created: 
+FUNCTION MAIN is
+variables
+    define y of type int
+    define z of type int
+    define total of type int
+
+BEGIN
+    SET y = 10;
+    SET z = 5;
+SET p = 20;
+SET total = y + z;
+    if total > p
+	DISPLAY true
+     else
+	DISPLAY false
+	endif
+END MAIN
+
+Overall, this scanner will properly tokenize a subset of the SCL laguage and provide the proper format that the parser can parse to check the syntax. 
+References: N/A
+ 

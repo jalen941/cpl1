@@ -1,0 +1,10 @@
+FUNCTION MAIN is
+variables
+    define x of type int
+    define y of type int
+BEGIN
+    SET x = 5;
+    SET y = 10;
+    DISPLAY x + y;
+END MAIN
+

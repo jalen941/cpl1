@@ -1,0 +1,16 @@
+FUNCTION MAIN is
+variables
+    define x of type bool
+    define y of type int
+    define z of type int
+BEGIN
+    SET x = true
+    SET y = 10;
+    SET z = 5;
+    if y > z
+	DISPLAY true
+     else
+        SET x = false
+	DISPLAY false
+	endif
+END MAIN
